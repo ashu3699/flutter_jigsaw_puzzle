@@ -4,12 +4,13 @@
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image/image.dart' as ui;
 
-import 'package:flutter_jigsaw_puzzle/src/error.dart';
+import 'error.dart';
 
 class JigsawPuzzle extends StatefulWidget {
   const JigsawPuzzle({
@@ -116,7 +117,8 @@ class JigsawWidgetState extends State<JigsawWidget> {
     if (pngBytes == null) {
       throw InvalidImageException();
     }
-    return ui.decodeImage(List<int>.from(pngBytes));
+    // return ui.decodeImage(List<int>.from(pngBytes));
+    return ui.decodeImage(pngBytes);
   }
 
   void reset() {
@@ -179,12 +181,20 @@ class JigsawWidgetState extends State<JigsawWidget> {
             (jigsawPosSide.top == 1 ? minSize : 0) +
             (jigsawPosSide.bottom == 1 ? minSize : 0);
 
+        // final ui.Image temp = ui.copyCrop(
+        //   fullImage!,
+        //   xAxis.round(),
+        //   yAxis.round(),
+        //   widthPerBlockTemp.round(),
+        //   heightPerBlockTemp.round(),
+        // );
+
         final ui.Image temp = ui.copyCrop(
           fullImage!,
-          xAxis.round(),
-          yAxis.round(),
-          widthPerBlockTemp.round(),
-          heightPerBlockTemp.round(),
+          x: xAxis.round(),
+          y: yAxis.round(),
+          width: widthPerBlock.round(),
+          height: heightPerBlock.round(),
         );
 
         final Offset offset = Offset(size!.width / 2 - widthPerBlockTemp / 2,
